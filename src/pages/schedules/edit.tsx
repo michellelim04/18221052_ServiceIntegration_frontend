@@ -127,7 +127,7 @@ const DriversCreate: FC = () => {
 				" bg-white min-h-screen  flex flex-col align-middle p-10 gap-10 tracking-widest"
 			}
 		>
-			<h1 className="text-5xl text-[#496466]">Edit Schedule</h1>
+			<h1 className="text-5xl text-[#496466]">Update Schedule</h1>
 			<form className="w-full space-y-5">
 				<div className="flex flex-row align-middle justify-between gap-3">
 					<label className="w-52 text-xl h-min my-auto text-[#496466]">
