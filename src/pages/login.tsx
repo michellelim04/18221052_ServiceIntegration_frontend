@@ -10,30 +10,32 @@ const Login: FC = () => {
 	const [password, setPassword] = useState("");
 	const handleLogin = async (e: FormEvent<HTMLElement>) => {
 		e.preventDefault();
-		const requestBody = JSON.stringify({
-			username, password
-		})
-		fetch("http://openapi.etckakewcbdsfwhg.southeastasia.azurecontainer.io/auth/token",{
-			method: "POST",
-			body: requestBody,
-			headers:{
-				"Content-Type": "application/json"
+		const requestBody = new FormData();
+		requestBody.append("username", username);
+		requestBody.append("password", password);
+		fetch(
+			"http://openapi.etckakewcbdsfwhg.southeastasia.azurecontainer.io/auth/token",
+			{
+				method: "POST",
+				body: requestBody,
+				headers: {},
 			}
-		}).then(async (response) =>{
-			if (response.status!=200){
-				toast.error("Failed to login..")
-				return
-			}
-			const responsejson = await response.json();
-            const type = responsejson.data.type 
-            const token = responsejson.data.token
-            window.localStorage.setItem("token", `${type} ${token}`)
-			toast.success("Logged in");
-			router.push("/dashboard");
-
-		}).catch(() => {
-		toast.error("Something went wrong..")
-	  	})
+		)
+			.then(async (response) => {
+				if (response.status != 200) {
+					toast.error("Failed to login..");
+					return;
+				}
+				const responsejson = await response.json();
+				const type = responsejson.data.token_type;
+				const token = responsejson.data.access_token;
+				window.localStorage.setItem("token", `${type} ${token}`);
+				toast.success("Logged in");
+				router.push("/dashboard");
+			})
+			.catch(() => {
+				toast.error("Something went wrong..");
+			});
 	};
 	return (
 		<main
