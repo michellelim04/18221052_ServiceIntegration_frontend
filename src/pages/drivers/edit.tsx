@@ -36,7 +36,6 @@ const DriversCreate: FC = () => {
 			{
 				method: "PUT",
 				body: JSON.stringify({
-					driver_id: parseInt(id),
 					name,
 					date_of_birth: dateOfBirth,
 					contact_no: contactNumber,
