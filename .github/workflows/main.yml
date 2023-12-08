@@ -22,7 +22,7 @@ jobs:
       - name: Build and push Docker image
         run: |
           docker build -t tstfe-main:latest .
-          docker tag openapi-main:latest ${{secrets.REGISTRY_NAME}}.azurecr.io/tstfe-main
+          docker tag tstfe-main:latest ${{secrets.REGISTRY_NAME}}.azurecr.io/tstfe-main
           docker push ${{secrets.REGISTRY_NAME}}.azurecr.io/tstfe-main:latest
       - name: Clean up
         run: docker logout
