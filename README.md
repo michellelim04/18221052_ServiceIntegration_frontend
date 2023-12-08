@@ -2,6 +2,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+## Deployment Link
+http://tstfe-main.a6eveqd8cshmbydt.southeastasia.azurecontainer.io:3000/
+
 ## To Run on Local:
 
 First, install required modules:
