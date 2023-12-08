@@ -31,9 +31,10 @@ const DriversCreate: FC = () => {
 		const tokenJoin = tokenSplit.join("");
 
 		const savedata = await fetch(
-			"http://openapi.etckakewcbdsfwhg.southeastasia.azurecontainer.io/driver",
+			"http://openapi.etckakewcbdsfwhg.southeastasia.azurecontainer.io/driver/" +
+				driver_id,
 			{
-				method: "POST",
+				method: "PUT",
 				body: JSON.stringify({
 					driver_id: parseInt(id),
 					name,
@@ -63,9 +64,51 @@ const DriversCreate: FC = () => {
 		router.push("/drivers");
 		return;
 	};
-	const getCurrent = async() => {
-		
-	}
+	const getCurrent = async (e: MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		const driver_id = parseInt(id) as number;
+		if (Number.isNaN(driver_id)) {
+			toast.error("ID must be a number");
+			return;
+		}
+		const token = localStorage.getItem("token");
+		if (token === null) {
+			toast.error("Not Authenticated");
+			window.location.replace("/login");
+			return;
+		}
+		const tokenSplit = token.split("");
+		tokenSplit[0] = "B";
+		const tokenJoin = tokenSplit.join("");
+		const fetchCurrent = await fetch(
+			"http://openapi.etckakewcbdsfwhg.southeastasia.azurecontainer.io/driver/" +
+				driver_id,
+			{
+				headers: {
+					Authorization: tokenJoin,
+				},
+			}
+		)
+			.then((response) => response)
+			.catch((err) => err);
+		if (fetchCurrent instanceof Error) {
+			toast.error("Something went wrong...");
+			return;
+		}
+		if (fetchCurrent.status !== 200) {
+			toast.error("Unable to fetch current data");
+			return;
+		}
+		const responsejson = await fetchCurrent.json();
+		setName(responsejson.name);
+		setLicenseNumber(responsejson.license_no);
+		setDateOfBirth(responsejson.date_of_birth);
+		setContactNumber(responsejson.contact_no);
+		setEmail(responsejson.email);
+		setAddress(responsejson.address);
+		toast.success("Fetched current data");
+		return;
+	};
 	return (
 		<main
 			className={
@@ -85,7 +128,10 @@ const DriversCreate: FC = () => {
 						value={id}
 						onChange={(e) => setId(e.target.value)}
 					/>
-					<button className="bg-slate-500 rounded-xl p-5 text-white font-bold">
+					<button
+						className="bg-slate-500 rounded-xl p-5 text-white font-bold"
+						onClick={(e) => getCurrent(e)}
+					>
 						Fetch
 					</button>
 				</div>
