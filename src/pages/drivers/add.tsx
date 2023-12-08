@@ -1,8 +1,11 @@
 import { FC, MouseEvent, useState } from "react";
 import { Jomhuria } from "next/font/google";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 const jomhuria = Jomhuria({ subsets: ["latin"], weight: "400" });
 const DriversCreate: FC = () => {
+	const router = useRouter();
 	const [id, setId] = useState("");
 	const [name, setName] = useState("");
 	const [licenseNumber, setLicenseNumber] = useState("");
@@ -10,8 +13,55 @@ const DriversCreate: FC = () => {
 	const [contactNumber, setContactNumber] = useState("");
 	const [email, setEmail] = useState("");
 	const [address, setAddress] = useState("");
-	const handleSave = (e: MouseEvent<HTMLFormElement>) => {
+	const handleSave = async (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
+		const driver_id = parseInt(id) as number;
+		if (Number.isNaN(driver_id)) {
+			toast.error("ID must be a number");
+			return;
+		}
+		const token = localStorage.getItem("token");
+		if (token === null) {
+			toast.error("Not Authenticated");
+			window.location.replace("/login");
+			return;
+		}
+		const tokenSplit = token.split("");
+		tokenSplit[0] = "B";
+		const tokenJoin = tokenSplit.join("");
+
+		const savedata = await fetch(
+			"http://openapi.etckakewcbdsfwhg.southeastasia.azurecontainer.io/driver",
+			{
+				method: "POST",
+				body: JSON.stringify({
+					driver_id: parseInt(id),
+					name,
+					license_no: licenseNumber,
+					date_of_birth: dateOfBirth,
+					contact_no: contactNumber,
+					email,
+					address,
+				}),
+				headers: {
+					Authorization: tokenJoin,
+					"Content-Type": "application/json",
+				},
+			}
+		)
+			.then((response) => response)
+			.catch((err) => err);
+		if (savedata instanceof Error) {
+			toast.error("Something went wrong....");
+			return;
+		}
+		if (savedata.status !== 200) {
+			toast.error("Failed to save...");
+			return;
+		}
+		toast.success("Successfully saved new driver");
+		router.push("/drivers");
+		return;
 	};
 	return (
 		<main
@@ -109,7 +159,12 @@ const DriversCreate: FC = () => {
 				>
 					Cancel
 				</Link>
-				<button className="bg-[#D4EEF0] rounded-xl shadow-xl px-5 py-3 w-56 text-center font-bold">
+				<button
+					className="bg-[#D4EEF0] rounded-xl shadow-xl px-5 py-3 w-56 text-center font-bold"
+					onClick={(e) => {
+						handleSave(e);
+					}}
+				>
 					Save
 				</button>
 			</div>
