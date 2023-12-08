@@ -67,7 +67,7 @@ const DriversDelete: FC = () => {
 			</form>
 			<div className="flex flex-row align-middle justify-between">
 				<Link
-					href={"/drivers"}
+					href={"/schedules"}
 					className="bg-[#D4EEF0] rounded-xl shadow-xl px-5 py-3 w-56 text-center font-bold"
 				>
 					Cancel
