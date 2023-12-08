@@ -18,7 +18,6 @@ const Login: FC = () => {
 			{
 				method: "POST",
 				body: requestBody,
-				headers: {},
 			}
 		)
 			.then(async (response) => {
@@ -27,13 +26,14 @@ const Login: FC = () => {
 					return;
 				}
 				const responsejson = await response.json();
-				const type = responsejson.data.token_type;
-				const token = responsejson.data.access_token;
+				const type = responsejson.token_type;
+				const token = responsejson.access_token;
 				window.localStorage.setItem("token", `${type} ${token}`);
 				toast.success("Logged in");
-				router.push("/dashboard");
+				window.location.replace("/dashboard");
 			})
-			.catch(() => {
+			.catch((e: Error) => {
+				console.error(e);
 				toast.error("Something went wrong..");
 			});
 	};
