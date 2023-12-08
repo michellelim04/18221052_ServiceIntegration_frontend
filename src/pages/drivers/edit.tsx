@@ -38,7 +38,6 @@ const DriversCreate: FC = () => {
 				body: JSON.stringify({
 					driver_id: parseInt(id),
 					name,
-					license_no: licenseNumber,
 					date_of_birth: dateOfBirth,
 					contact_no: contactNumber,
 					email,
@@ -154,6 +153,7 @@ const DriversCreate: FC = () => {
 					<input
 						type="text"
 						required
+						disabled
 						className="w-full bg-[#C7DADB] rounded-lg p-3"
 						value={licenseNumber}
 						onChange={(e) => setLicenseNumber(e.target.value)}
