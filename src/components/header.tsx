@@ -7,6 +7,7 @@ const jomhuria = Jomhuria({ subsets: ["latin"], weight: "400" });
 const Header: FC = () => {
 	const router = useRouter();
 	const [loggedin, setLoggedin] = useState(false);
+	const [username, setUsername] = useState("DEFAULT");
 	const handleRedirect = (e: MouseEvent<HTMLElement>) => {
 		e.preventDefault();
 		router.push("/login");
@@ -14,7 +15,8 @@ const Header: FC = () => {
 	};
 	useEffect(() => {
 		const token = localStorage.getItem("token");
-		setLoggedin(token != null);
+		const username = localStorage.getItem("username");
+		setLoggedin(token != null && username != null);
 	}, []);
 	return (
 		<header

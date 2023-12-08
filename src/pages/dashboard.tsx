@@ -1,10 +1,21 @@
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import Image from "next/image";
 import { Jomhuria } from "next/font/google";
 import Link from "next/link";
 
 const jomhuria = Jomhuria({ subsets: ["latin"], weight: "400" });
 const Dashboard: FC = () => {
+	const [username, setUsername] = useState("NO NAME");
+	useEffect(() => {
+		const getuser = window.localStorage.getItem("username");
+		if (getuser === null) {
+			localStorage.removeItem("token");
+			localStorage.removeItem("username");
+			window.location.replace("/login");
+			return;
+		}
+		setUsername(getuser);
+	}, []);
 	return (
 		<main
 			className={
@@ -12,7 +23,7 @@ const Dashboard: FC = () => {
 				" min-h-screen  flex flex-col align-middle p-14 gap-10 tracking-wide text-[#496466] text-7xl"
 			}
 		>
-			<h1>Hello, user!</h1>
+			<h1>Hello, {username}!</h1>
 			<div className="grid grid-cols-3 gap-14">
 				<Link
 					href="/drivers"

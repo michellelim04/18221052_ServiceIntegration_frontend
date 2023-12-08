@@ -29,6 +29,7 @@ const Login: FC = () => {
 				const type = responsejson.token_type;
 				const token = responsejson.access_token;
 				window.localStorage.setItem("token", `${type} ${token}`);
+				window.localStorage.setItem("username", username);
 				toast.success("Logged in");
 				window.location.replace("/dashboard");
 			})
