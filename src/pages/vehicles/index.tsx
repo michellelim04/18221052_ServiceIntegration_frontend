@@ -90,13 +90,13 @@ const Vehicles: FC = () => {
 								</td>
 								<td className="text-2xl bg-slate-200 py-3">{vehicle.make}</td>
 								<td className="text-2xl bg-slate-200 py-3">
-									{vehicle.make}
-								</td>
-								<td className="text-2xl bg-slate-200 py-3">
 									{vehicle.model}
 								</td>
 								<td className="text-2xl bg-slate-200 py-3">
 									{vehicle.year}
+								</td>
+								<td className="text-2xl bg-slate-200 py-3">
+									{vehicle.registration_no}
 								</td>
 							</tr>
 						);

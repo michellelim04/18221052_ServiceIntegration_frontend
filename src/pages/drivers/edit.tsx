@@ -58,7 +58,7 @@ const DriversCreate: FC = () => {
 			toast.error("Failed to save...");
 			return;
 		}
-		toast.success("Successfully saved new driver");
+		toast.success("Successfully updated driver");
 		router.push("/drivers");
 		return;
 	};
